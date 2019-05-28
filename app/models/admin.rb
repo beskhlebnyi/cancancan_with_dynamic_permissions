@@ -4,5 +4,9 @@ class Admin < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-         
+  belongs_to :role
+
+  def super_admin?
+    self.role.name == "Super Admin"
+  end
 end
