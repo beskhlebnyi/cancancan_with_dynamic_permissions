@@ -1,0 +1,29 @@
+<h1>Listing parts</h1>
+<table>
+  <tr>
+    <th>
+      <%= 'Part Name' %>
+    </th>
+    <th>
+      <%= 'Action' %>
+    </th>
+    
+  </tr>
+  <% @items.each do |item| %>
+    <tr>
+      <td>
+        <%= item.name %>
+      </td>
+      <td>
+
+        <%= link_to 'Show', item %>      
+        <%= link_to '| Edit', edit_part_path(part) if @current_permissions.include?(["Part", "update"]) %>     
+        <%= link_to '| Destroy', part, method: :delete, data: { confirm: 'Are you sure?' } if @current_permissions.include?(["Part", "destroy"]) %>
+        
+      </td>
+    </tr>
+  <% end %>
+</table>
+<br/>
+<%= link_to 'New Part', new_part_path if @current_permissions.include?(['Part', 'create']) %>
+<%= link_to 'back', root_path %>
