@@ -7,6 +7,6 @@ class Admin < ApplicationRecord
   belongs_to :role
 
   def super_admin?
-    self.role.name == "Super Admin"
+    self.role.name == "super_admin"
   end
 end
