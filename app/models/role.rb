@@ -12,9 +12,9 @@ class Role < ApplicationRecord
       when "Part"
         case permission.action
         when "create"
-          self.permissions << Permission.where(subject_class: "Drawing", action: "create")
+          self.permissions << Permission.where(subject_class: "Item", action: "create")
         when "update"
-          self.permissions << Permission.where(subject_class: "Drawing", action: ["update", "destroy"])
+          self.permissions << Permission.where(subject_class: "Item", action: ["update", "destroy"])
         end
       end
     end
