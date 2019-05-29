@@ -1,7 +1,7 @@
-class ItemController < ApplicationController
-  before_filter :authenticate_user!
+class ItemsController < ApplicationController
+  before_action :authenticate_admin!
   load_and_authorize_resource
-  before_filter :load_permissions
+  before_action :load_permissions
 
   def index
     @items = Item.all

@@ -18,5 +18,5 @@ class Role < ApplicationRecord
         end
       end
     end
-  def
+  end
 end

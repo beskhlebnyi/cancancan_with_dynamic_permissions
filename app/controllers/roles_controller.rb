@@ -1,10 +1,11 @@
 class RolesController < ApplicationController
-  before_filter :authenticate_user!
-  before_filter :is_super_admin?
+  before_action :authenticate_admin!
+  before_action :is_super_admin?
 
   def index
     @roles = Role.all{|i| i.name != "super_admin"}
   end
+
   def new
     @role = Role.new
 
@@ -26,6 +27,7 @@ class RolesController < ApplicationController
       end
     end
   end
+
   def show
     @role = Role.find(params[:id])
     @permissions = @role.permissions
@@ -41,6 +43,7 @@ class RolesController < ApplicationController
     @role = Role.find(params[:id])
     @role.permissions = []
     @role.set_permissions(params[:permissions]) if params[:permissions]
+    
     if @role.save
       redirect_to roles_path and return
     end
@@ -61,6 +64,7 @@ class RolesController < ApplicationController
   private
 
   def is_super_admin?
-    redirect_to root_path and return unless current_user.super_admin?
-end
+    redirect_to root_path unless current_admin.super_admin?
+  end
+
 end
