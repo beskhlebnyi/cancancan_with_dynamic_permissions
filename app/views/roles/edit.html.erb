@@ -9,13 +9,16 @@
         <fieldset>
           <table class="table">
             <thead>
+              <th >Ability</th>
               <th>Class</th>
               <th>Action</th>
-              <th>#{check_box_tag 'main', 0, false}</th>
             </thead>
             <tbody>
               <% @permissions.each do |permission| %>
                 <tr>
+                  <td>
+                    <%= permission.name %>
+                  </td>
                   <td>
                     <%= permission.subject_class %>
                   </td>

@@ -1,6 +1,6 @@
 class RolesController < ApplicationController
   before_action :authenticate_admin!
-  before_action :is_super_admin?
+  #before_action :is_super_admin?
 
   def index
     @roles = Role.all{|role| role.name != "super_admin"}

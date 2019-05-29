@@ -2,7 +2,10 @@
 <table>
   <tr>
     <th>
-      <%= 'Part Name' %>
+      <%= 'Item Name' %>
+    </th>
+    <th>
+      <%= 'Item number' %>
     </th>
     <th>
       <%= 'Action' %>
@@ -15,15 +18,18 @@
         <%= item.name %>
       </td>
       <td>
+        <%= item.number %>
+      </td>
+      <td>
 
         <%= link_to 'Show', item %>      
-        <%= link_to '| Edit', edit_part_path(part) if @current_permissions.include?(["Part", "update"]) %>     
-        <%= link_to '| Destroy', part, method: :delete, data: { confirm: 'Are you sure?' } if @current_permissions.include?(["Part", "destroy"]) %>
+        <%= link_to '| Edit', edit_item_path(item) %>     
+        <%= link_to '| Destroy', item, method: :delete, data: { confirm: 'Are you sure?' }  %>
         
       </td>
     </tr>
   <% end %>
 </table>
 <br/>
-<%= link_to 'New Part', new_part_path if @current_permissions.include?(['Part', 'create']) %>
+<%= link_to 'New Part', new_item_path %>
 <%= link_to 'back', root_path %>

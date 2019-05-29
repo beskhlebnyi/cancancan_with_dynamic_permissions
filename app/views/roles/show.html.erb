@@ -7,17 +7,21 @@
     <div class="col-md-12">
       <table class="table">
         <thead>
-          <th>Class</th>
+          <th>Name</th>
           <th>Action</th>
+          <th>Class</th>
         </thead>
         <tbody>
           <% @permissions.each do |permission| %>
             <tr>
               <td>
-                <%= permission.subject_class %>
+                <%= permission.name %>
               </td>
               <td>
                 <%= permission.action %>
+              </td>
+              <td>
+                <%= permission.subject_class %>
               </td>
             </tr>
           <% end %>
