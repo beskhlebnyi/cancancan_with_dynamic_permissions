@@ -1,5 +1,5 @@
 class ItemController < ApplicationController
-  authenticate_user!
+  before_filter :authenticate_user!
   load_and_authorize_resource
   before_filter :load_permissions
 
@@ -12,8 +12,16 @@ class ItemController < ApplicationController
     end
   end
 
+  def show
+    @item = Item.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @item }
+    end
+  end
+
   def new
-    @parts = Part.all
     @item = Item.new
 
     respond_to do |format|
@@ -22,10 +30,14 @@ class ItemController < ApplicationController
     end
   end
 
+  def edit
+    @item = Item.find(params[:id])
+  end
+
   def create
-    @parts = Part.all
+    @item = Item.new(params.require(:item).permit(:name, :number))
     #@item = Item.new(params[:item])
-    @item = Item.new(params.require(:item).permit(:name,:number))
+    #@item = Item.new(item_params)
 
     respond_to do |format|
       if @item.save
@@ -33,6 +45,20 @@ class ItemController < ApplicationController
         format.json { render json: @item, status: :created, location: @item }
       else
         format.html { render action: "new" }
+        format.json { render json: @item.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def update
+    @item = Item.find(params[:id])
+
+    respond_to do |format|
+      if @item.update_attributes(params[:item])
+        format.html { redirect_to @item, notice: 'Item was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
         format.json { render json: @item.errors, status: :unprocessable_entity }
       end
     end
@@ -47,9 +73,10 @@ class ItemController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   private
-      def item_params
-        #params.require(:part).permit(:name)
-        params.require(:item).permit(:name, :number)
-end
+    def item_params
+      
+      params.require(:item).permit(:name, :number)
+    end
 end
