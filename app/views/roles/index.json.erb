@@ -1,0 +1,26 @@
+{    
+  "items":[
+    <% @roles.each_with_index do |role,index| %>
+      {
+        "id"  : "<%= role.id %>",
+        "name": "<%= role.name %>",
+        "permissions": [
+          <% role.permissions.each_with_index do |permission, index|%>
+            {
+              "id": "<%= permission.id %>",
+              "object": "<%= permission.subject_class %>",
+              "action": "<%= permission.action %>"
+            }
+          <% unless index == role.permissions.count - 1 %>
+            ,
+          <% end %>
+          <% end %>
+
+        ]
+      }
+    <% unless index == @roles.count - 1 %>
+      ,
+    <% end %>
+    <% end %>
+  ]
+}

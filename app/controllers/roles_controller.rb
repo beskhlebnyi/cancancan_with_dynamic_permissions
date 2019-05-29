@@ -1,9 +1,13 @@
 class RolesController < ApplicationController
-  before_action :authenticate_admin!
+  skip_before_action :verify_authenticity_token
+  #before_action :authenticate_admin!
   #before_action :is_super_admin?
 
   def index
     @roles = Role.all{|role| role.name != "super_admin"}
+    respond_to do |format|
+      format.json {  }
+    end
   end
 
   def new
@@ -15,14 +19,14 @@ class RolesController < ApplicationController
     end
   end
   def create
-    @role = Role.new(params.require(:role).permit(:name))
+    @role = Role.new(params.permit(:name))
 
     respond_to do |format|
       if @role.save
-        format.html { redirect_to @role, notice: 'Role was successfully created.' }
+        #format.html { redirect_to @role, notice: 'Role was successfully created.' }
         format.json { render json: @role, status: :created, location: @role }
       else
-        format.html { render action: "new" }
+       # format.html { render action: "new" }
         format.json { render json: @role.errors, status: :unprocessable_entity }
       end
     end
@@ -43,12 +47,15 @@ class RolesController < ApplicationController
     @role = Role.find(params[:id])
     @role.permissions = []
     @role.set_permissions(params[:permissions]) if params[:permissions]
+    @role.name = params[:name]
     
     if @role.save
-      redirect_to roles_path and return
+      respond_to do |format|
+        format.json { render json: @role, :status => :ok}
+      end
     end
-    @permissions = Permission.all{|i| ["Item"].include? i.subject_class}.compact
-    render 'edit'
+    #@permissions = Permission.all{|i| ["Item"].include? i.subject_class}.compact
+    #render 'edit'
   end
 
   def destroy
@@ -66,5 +73,6 @@ class RolesController < ApplicationController
   def is_super_admin?
     redirect_to root_path unless current_admin.super_admin?
   end
+
 
 end
