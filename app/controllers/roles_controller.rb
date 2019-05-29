@@ -3,7 +3,7 @@ class RolesController < ApplicationController
   before_action :is_super_admin?
 
   def index
-    @roles = Role.all{|i| i.name != "super_admin"}
+    @roles = Role.all{|role| role.name != "super_admin"}
   end
 
   def new

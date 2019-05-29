@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12"><p id="notice"><%= notice %></p></div>
+  </div>  
+  <div class="row">
+    <h3>Name: <%= @role.name %></h3>
+    <div class="col-md-12">
+      <table class="table">
+        <thead>
+          <th>Class</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          <% @permissions.each do |permission| %>
+            <tr>
+              <td>
+                <%= permission.subject_class %>
+              </td>
+              <td>
+                <%= permission.action %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <%= link_to 'Back', roles_path, :class => 'btn btn-default' %>
+    </div>
+  </div>
+</div>
